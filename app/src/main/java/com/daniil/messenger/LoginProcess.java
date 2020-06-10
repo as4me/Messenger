@@ -53,7 +53,10 @@ public class LoginProcess extends AppCompatActivity {
                     Log.d("complete", "signInWithEmail:success");
                     mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = mSettings.edit();
+                    FirebaseUser fireuserID = FirebaseAuth.getInstance().getCurrentUser();
                     editor.putBoolean("authstate", true);
+                    editor.commit();
+                    editor.putString("id",fireuserID.getUid());
                     editor.commit();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);

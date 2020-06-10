@@ -65,10 +65,10 @@ public class RegisterProcess extends AppCompatActivity {
                             User user = new User(e,"default",fireuserID.getUid() ,n);
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference myRef = database.getReference("");
-                            String id = myRef.child("users").push().getKey();
-                            myRef.child("users").child(id).setValue(user);
+                            //String id = myRef.child("users").push().getKey();
+                            myRef.child("users").child(fireuserID.getUid()).setValue(user);
 
-                            editor.putString("id",id);
+                            editor.putString("id",fireuserID.getUid());
                             editor.commit();
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);

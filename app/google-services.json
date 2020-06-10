@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "9086899554",
+    "firebase_url": "https://messenger-11686.firebaseio.com",
+    "project_id": "messenger-11686",
+    "storage_bucket": "messenger-11686.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9086899554:android:df4034795c21634515883b",
+        "android_client_info": {
+          "package_name": "com.daniil.messenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9086899554-rr9569pkvtmvc67vv6ogv6lq9d2cdou4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.daniil.messenger",
+            "certificate_hash": "52b96b80a20086a6b098954af5772644d070f3d1"
+          }
+        },
+        {
+          "client_id": "9086899554-a3s3m0pjl6in9p843ptr3211vtf9cgss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAcTKElTGzq24tFrxDP3Z5c-Rk7RL3Nwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9086899554-a3s3m0pjl6in9p843ptr3211vtf9cgss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
