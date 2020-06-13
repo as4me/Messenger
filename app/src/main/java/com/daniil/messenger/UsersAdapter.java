@@ -2,6 +2,7 @@ package com.daniil.messenger;
 
 import android.content.Context;
 import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -29,7 +32,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.CustomViewHo
         CustomViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            userName = mView.findViewById(R.id.profilename);
+            userName = mView.findViewById(R.id.userName);
             profilePic = mView.findViewById(R.id.userProfile);
         }
     }
@@ -45,7 +48,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.CustomViewHo
     }
     @Override
     public void onBindViewHolder(CustomViewHolder holder, final int position) {
-        //holder.userName.setText(userResults.get(position).getEmail());
+        Log.d("email",userResults.get(position).email);
+        holder.userName.setText(userResults.get(position).getNick());
+        if(!userResults.get(position).getLinkPhoto().equals("default")){
+            Glide.with(context).load(userResults.get(position).getLinkPhoto()).into(holder.profilePic);
+        }
     }
 
     @Override

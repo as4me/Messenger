@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +49,13 @@ public class UsersListFragment extends Fragment {
                 listusers.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
-                    listusers.add(user);
+                    if(!user.getUid().equals(firebaseUser.getUid())){
+                        listusers.add(user);
+                    }
                 }
                 usersAdapter = new UsersAdapter(getContext(),listusers);
                 recyclerView.setAdapter(usersAdapter);
+                Log.d("list",listusers.get(0).getEmail());
             }
 
             @Override
@@ -59,5 +63,6 @@ public class UsersListFragment extends Fragment {
 
             }
         });
+
     }
 }
