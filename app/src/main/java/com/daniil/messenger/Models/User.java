@@ -1,4 +1,4 @@
-package com.daniil.messenger;
+package com.daniil.messenger.Models;
 
 public class User {
     public String email;

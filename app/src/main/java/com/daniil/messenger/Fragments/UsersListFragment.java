@@ -1,4 +1,4 @@
-package com.daniil.messenger;
+package com.daniil.messenger.Fragments;
 
 import android.os.Bundle;
 
@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.daniil.messenger.Adapters.UsersAdapter;
+import com.daniil.messenger.Models.User;
+import com.daniil.messenger.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

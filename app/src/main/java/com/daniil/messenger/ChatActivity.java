@@ -2,7 +2,6 @@ package com.daniil.messenger;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -14,14 +13,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.daniil.messenger.Adapters.MessageAdapter;
+import com.daniil.messenger.Models.Chat;
+import com.daniil.messenger.Models.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
     private Intent intent;
@@ -32,6 +41,9 @@ public class ChatActivity extends AppCompatActivity {
     private EditText chatbox;
     private ImageView sendMessage;
     private String savedMessage;
+    private RecyclerView recyclerView;
+    private MessageAdapter messageAdapter;
+    private List<Chat> mchat;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +53,12 @@ public class ChatActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.chatToolBar);
         chatbox = findViewById(R.id.chatbox);
         sendMessage = findViewById(R.id.sendmessage);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        recyclerView = findViewById(R.id.chatscreen);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linManager = new LinearLayoutManager(getApplicationContext());
+        linManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linManager);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
@@ -52,13 +70,14 @@ public class ChatActivity extends AppCompatActivity {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                text.setText(user.nick);
-                if(user.linkPhoto.equals("default")){
+                User fuser = dataSnapshot.getValue(User.class);
+                text.setText(fuser.nick);
+                if(fuser.linkPhoto.equals("default")){
                     Glide.with(getApplicationContext()).load(R.drawable.defaultprofile).into(profilepic);
                 } else{
-                    Glide.with(getApplicationContext()).load(user.linkPhoto).into(profilepic);
+                    Glide.with(getApplicationContext()).load(fuser.linkPhoto).into(profilepic);
                 }
+                readMessage(user.getUid(),userId,fuser.getLinkPhoto());
             }
 
             @Override
@@ -73,11 +92,43 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!chatbox.getText().toString().matches("")){
                     savedMessage = chatbox.getText().toString();
+                    sendMessage(savedMessage, user.getUid(), userId);
                 } else{
                     Toast.makeText(getApplicationContext(),"Please send message", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+    }
+    private void sendMessage(String message, String sender, String recipient){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        HashMap<String,Object> hash = new HashMap<>();
+        hash.put("sender",sender);
+        hash.put("message",message);
+        hash.put("recipient",recipient);
+        reference.child("Chats").push().setValue(hash);
+    }
+    private void readMessage(String myID, String userID, String imageURL){
+        mchat = new ArrayList<>();
+        ref = FirebaseDatabase.getInstance().getReference("Chats");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mchat.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Chat chat = snapshot.getValue(Chat.class);
+                    if(chat.getRecipient().equals(myID) && chat.getSender().equals(userID) || chat.getRecipient().equals(userID) && chat.getSender().equals(myID)){
+                        mchat.add(chat);
+                    }
+                    messageAdapter = new MessageAdapter(getApplicationContext(),mchat,imageURL);
+                    recyclerView.setAdapter(messageAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

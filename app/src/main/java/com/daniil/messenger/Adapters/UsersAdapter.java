@@ -1,22 +1,22 @@
-package com.daniil.messenger;
+package com.daniil.messenger.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.daniil.messenger.ChatActivity;
+import com.daniil.messenger.Models.User;
+import com.daniil.messenger.R;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.CustomViewHolder> {
@@ -59,7 +59,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.CustomViewHo
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,ChatActivity.class);
+                Intent intent = new Intent(context, ChatActivity.class);
                 intent.putExtra("userId",userResults.get(position).getUid());
                 context.startActivity(intent);
             }
