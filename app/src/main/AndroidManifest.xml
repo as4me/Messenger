@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginProcess" />
+        <activity android:name=".ChatActivity"/>
     </application>
 
 </manifest>

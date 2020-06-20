@@ -1,6 +1,7 @@
 package com.daniil.messenger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -28,12 +30,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.CustomViewHo
 
         TextView userName;
         ImageView profilePic;
-
+        ConstraintLayout constraintLayout;
         CustomViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
             userName = mView.findViewById(R.id.userName);
             profilePic = mView.findViewById(R.id.userProfile);
+            constraintLayout = mView.findViewById(R.id.userConstraintLayout);
         }
     }
     public UsersAdapter(Context context, List<User> itemResults){
@@ -53,6 +56,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.CustomViewHo
         if(!userResults.get(position).getLinkPhoto().equals("default")){
             Glide.with(context).load(userResults.get(position).getLinkPhoto()).into(holder.profilePic);
         }
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,ChatActivity.class);
+                intent.putExtra("userId",userResults.get(position).getUid());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
