@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.daniil.messenger.Fragments.MessagesFragment;
+import com.daniil.messenger.Fragments.ProfileFragment;
 import com.daniil.messenger.Fragments.UsersListFragment;
 import com.daniil.messenger.Models.User;
 import com.google.android.material.tabs.TabLayout;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter viewAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewAdapter.addFragment(new MessagesFragment(), "Chats");
         viewAdapter.addFragment(new UsersListFragment(), "Users");
+        viewAdapter.addFragment(new ProfileFragment(), "User Profile");
         viewPager.setAdapter(viewAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
